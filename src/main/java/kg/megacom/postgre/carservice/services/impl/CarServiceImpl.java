@@ -6,7 +6,10 @@ import kg.megacom.postgre.carservice.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -35,8 +38,13 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> getCars() {
-        return carRepository.findAll();
+    public List<Car> getCars(double minPrice, double maxPrice, String manufacturerName) {
+        return carRepository.findAll()
+                .stream()
+                .filter(car -> car.getPrice() <= maxPrice && car.getPrice() >= minPrice
+                        && car.getManufacturer().toLowerCase(Locale.ROOT).contains(manufacturerName.toLowerCase(Locale.ROOT).trim()))
+                .sorted(Comparator.comparingDouble(Car::getPrice))
+                .collect(Collectors.toList());
     }
 
     @Override

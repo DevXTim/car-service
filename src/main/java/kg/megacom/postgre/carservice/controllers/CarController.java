@@ -24,8 +24,11 @@ public class CarController {
     }
 
     @GetMapping("/list")
-    public List<Car> getCars() {
-        return carService.getCars();
+    public List<Car> getCars(
+            @RequestParam(required = false, defaultValue = "0") double minPrice,
+            @RequestParam(required = false, defaultValue = Double.MAX_VALUE + "") double maxPrice,
+            @RequestParam(required = false, defaultValue = "") String manufacturerName) {
+        return carService.getCars(minPrice, maxPrice, manufacturerName);
     }
 
     @PutMapping("/update")

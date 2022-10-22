@@ -7,7 +7,7 @@ import java.util.List;
 public interface CarService {
     Car save(Car car);
 
-    List<Car> getCars();
+    List<Car> getCars(double minPrice, double maxPrice, String manufacturerName);
 
     Car updateCar(Car car);
 }
